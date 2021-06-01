@@ -1,8 +1,3 @@
-/**
- * Generates a random string containing numbers and letters
- * @param  {number} length The length of the string
- * @return {string} The generated string
- */
  function generateRandomString(length) {
     var text = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -17,9 +12,11 @@ async function generateCodeChallenge(codeVerifier){
     const encoder = new TextEncoder();
     const data = encoder.encode(codeVerifier);
     const hash = await crypto.subtle.digest('SHA-256', data);
-    return hash;
+    const res = btoa(hash);
+    return res;
 }
 
+  
   const codeVerifier = generateRandomString(128);
   const codeChallenge = generateCodeChallenge(codeVerifier);
  
