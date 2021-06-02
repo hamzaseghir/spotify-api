@@ -1,6 +1,7 @@
 const addButtons = document.querySelectorAll('#results button');
 const ulPlaylist = document.querySelector("#playlist ul");
 const access_token = sessionStorage.getItem("acces_token");
+const searchBtn = document.getElementById('search-button');
 console.log(access_token)
 
 addButtons.forEach(button => {
@@ -21,5 +22,17 @@ addButtons.forEach(button => {
 });
 
 const searchSong = () => {
-    fetch("https://api.spotify.com/v1/search?q=")
+    const options = {
+        method: "GET",
+        Accept: "Application/json",
+        "Content-Type": "application/json",
+        headers : {
+            Authorization: `Bearer`
+        }
+    }
+    fetch("https://api.spotify.com/v1/search?q=muse&type=track", options)
+    .then(reponse => reponse.json())
+    .then(data => console.log(data));
 }
+
+searchBtn.addEventListener('click', searchSong);
