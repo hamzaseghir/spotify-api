@@ -1,0 +1,31 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+	<script src="main.js"></script>
+    <title>Document</title>
+</head>
+<body class="bg-gradient-to-r from-green-400 to-gray-100">
+    <section class="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4">
+		<input class="bg-gray-200 focus:bg-white" type="text" id="search" placeholder="Votre musique !">
+		<button class="border-double border-4 border-green-200 hover:bg-red-400">Rechercher</button>
+	</section>
+	<section id="results">
+		<h2>Résultats</h2>
+		<ul>
+			<li>Time is running out - Muse <button>Ajouter</button></li>
+		</ul>
+	</section>
+	<section id="playlist">
+		<h2>Playlist</h2>
+		<ul>
+			<li>ACDC <button>Supprimer</button></li>
+		</ul>
+	</section>
+	<section>
+		<button>Sauvergarder la playlist sur Spotify</button>
+	</section>
+</body>
+</html>
