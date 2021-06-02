@@ -30,7 +30,7 @@ const searchSong = () => {
         headers : {   
             Accept: "application/json",
             "Content-Type": "application/json",
-            Authorization: `Bearer${access_token}`,
+            Authorization: `Bearer ${access_token}`,
         }
     }
     fetch("https://api.spotify.com/v1/search?q=muse&type=track", options)
