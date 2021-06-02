@@ -1,3 +1,11 @@
+const clientId = "92ade57dd3514375bcd6990adc441c4a"; // https://developer.spotify.com/ code fournit lors de la création de l'app
+const redirectUri = encodeURI("http://localhost:5501/callback.html?"); // https://developer.spotify.com/dashboard/applications à définir dans le dashboard
+const logging = document.querySelector("#loggin button"); 
+
+let codeVerifier = null;
+let codeChallenge = null;
+
+ 
  function generateRandomString(length) {
     var text = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -21,11 +29,8 @@ async function generateUri(codeChallenge){
     return authorizationUri;
 };
 
-const clientId = "92ade57dd3514375bcd6990adc441c4a"; // https://developer.spotify.com/ code fournit lors de la création de l'app
-const redirectUri = encodeURI("http://localhost:5501/callback.html?"); // https://developer.spotify.com/dashboard/applications à définir dans le dashboard
-const codeVerifier = generateRandomString(128);
-const codeChallenge = generateCodeChallenge(codeVerifier);
-const logging = document.querySelector("#loggin button");
+codeVerifier = generateRandomString(128);
+codeChallenge = generateCodeChallenge(codeVerifier);
 
 logging.addEventListener('click', async() => {
     var authorizationUri = await codeChallenge.then(e => generateUri(e));

@@ -1,7 +1,7 @@
 const addButtons = document.querySelectorAll('#results button');
 const ulPlaylist = document.querySelector("#playlist ul");
-
 const access_token = sessionStorage.getItem("acces_token");
+console.log(access_token)
 
 addButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -19,3 +19,7 @@ addButtons.forEach(button => {
         ulPlaylist.append(li);
     })
 });
+
+const searchSong = () => {
+    fetch("https://api.spotify.com/v1/search?q=")
+}
