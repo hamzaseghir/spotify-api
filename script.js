@@ -35,5 +35,4 @@ codeChallenge = generateCodeChallenge(codeVerifier);
 logging.addEventListener('click', async() => {
     var authorizationUri = await codeChallenge.then(e => generateUri(e));
     window.location=authorizationUri;
-    
 });
