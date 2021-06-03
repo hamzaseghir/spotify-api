@@ -11,9 +11,6 @@ const saveButton = document.querySelector("#playlist button");
 const playlistName = document.querySelector("#playlist input");
 var searchQuery = null;
 
-
-console.log(searchBtn);
-console.log(access_token)
 saveButton.addEventListener('click',() => savePlaylist());
 
 
@@ -23,7 +20,6 @@ searchBtn.addEventListener('click', async() => {
     resultLi.forEach(e => e.remove());
     const res = await Promise.resolve(searchSong().then(e => e.json()));
     const items = res.tracks.items;
-    //console.log(items);  
     items.forEach(function(e){
         const button = document.createElement('button');
         button.innerText = " ### Ajouter";
@@ -106,7 +102,6 @@ async function createPlaylist(){
     }
     const userId = await getUser().then(e => e.id);
     return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, options).then(e => {
-        console.log(e);
         return e.json();
     });
 }
@@ -114,7 +109,6 @@ async function createPlaylist(){
 async function savePlaylist(){
     const idPlaylist = await createPlaylist().then(e => e.id);
     const tracks = addTracksToPlaylist();
-    console.log(tracks);
     const options = {
         method : "POST",
         body : JSON.stringify({
@@ -127,5 +121,4 @@ async function savePlaylist(){
         },
     };
     const e = await fetch(`https://api.spotify.com/v1/playlists/${idPlaylist}/tracks`, options).then(e => e.json()).then(e => e);
-    console.log(e);
 }
