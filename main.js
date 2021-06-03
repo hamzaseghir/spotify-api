@@ -51,27 +51,36 @@ searchBtn.addEventListener('click', async() => {
     const res = await Promise.resolve(searchSong().then(e => e.json()));
     const items = res.tracks.items;
     console.log(items);
+    
     items.forEach(function(e){
+        const button = document.createElement('button');
+        button.innerText = " ### Ajouter";
         const uri = e.uri;
         const titre = e.name;
         var artist = "";
         const li = document.createElement('li');
-        const button = document.createElement('button');
-        button.innerText = " # Ajouter";
         e.artists.forEach(e => artist+= e.name + " ");
+        
         var liCont = `${titre} - ${artist}`;
         li.setAttribute("data-uri", uri);
         li.append(liCont);
+        const liToAdd = li.innerHTML;
+        console.log("to add = " + liToAdd);
+        button.addEventListener('click', () => addToPlayList(liToAdd, uri));
         li.append(button);
-        button.addEventListener('click', addToPlayList(li));
         resultSearch.append(li);
     });
     result.style.display = "block";
 });
 
-function addToPlayList(track){
-    playlistResult.append(track);
-    console.log(track);
+function addToPlayList(track, uri){
+    const li = document.createElement("li");
+    const deleteButton = document.createElement("button");
+    deleteButton.innerText = "*** Supprimer";
+    li.setAttribute("data-uri", uri);
+    li.innerHTML = track;
+    li.append(deleteButton);
+    playlistResult.appendChild(li);
 }
 
 function getUser(){
@@ -90,17 +99,19 @@ getUser().then(e => console.log(e));
 
 function createPlaylist(name){
     const options = {
-        method = "POST",
+        method : "POST",
+
         data : {
             "name" : name,
             "description" : "Generated with an awesome website",
             "public" : true,
         },
+
         headers : {
             Accept : "application/json",
             "Content-Type" : "application/json",
             Authorization : `Bearer ${access_token}`
-        }
+        },
     }
     const userId = getUser().id;
     return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`).then(e => e.json());
