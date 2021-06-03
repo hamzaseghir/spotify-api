@@ -5,8 +5,16 @@ const logging = document.querySelector("#loggin button");
 let codeVerifier = null;
 let codeChallenge = null;
 
+codeVerifier = generateRandomString(128);
+codeChallenge = generateCodeChallenge(codeVerifier);
+
+logging.addEventListener('click', async() => {
+    var authorizationUri = await codeChallenge.then(e => generateUri(e));
+    window.location=authorizationUri;
+});
+
  
- function generateRandomString(length) {
+function generateRandomString(length) {
     var text = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   
@@ -29,10 +37,3 @@ async function generateUri(codeChallenge){
     return authorizationUri;
 };
 
-codeVerifier = generateRandomString(128);
-codeChallenge = generateCodeChallenge(codeVerifier);
-
-logging.addEventListener('click', async() => {
-    var authorizationUri = await codeChallenge.then(e => generateUri(e));
-    window.location=authorizationUri;
-});
