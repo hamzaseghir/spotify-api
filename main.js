@@ -72,7 +72,6 @@ function addTracksToPlaylist(){
     const tracks = document.querySelectorAll("#playlist li");
     var res = []; 
     tracks.forEach(e => res.push(e.dataset.uri));
-    console.log(res);
 }
 
 function getUser(){
@@ -88,7 +87,7 @@ function getUser(){
 }
 
 function createPlaylist(){
-    const name = playlistName.innerHTML != null ? playlistName.innerHTML : "😎 Bangers";
+    const name = JSON.stringify(playlistName.innerHTML != null ? playlistName.innerHTML : "😎 Bangers");
     const options = {
         method : "POST",
 
@@ -101,7 +100,7 @@ function createPlaylist(){
         headers : {
             Accept : "application/json",
             "Content-Type" : "application/json",
-            Authorization : `Bearer ${access_token}`
+            Authorization : `Bearer ${access_token}`,
         },
     }
     const userId = getUser().then(e => e.id);
@@ -110,9 +109,10 @@ function createPlaylist(){
 
 function savePlaylist(){
     const idPlaylist = createPlaylist().then(e => e.id);
+    const tracks = JSON.stringify(addTracksToPlaylist());
     const options = {
         method : "POST",
-        uris: addTracksToPlaylist(),
+        uris: tracks,
         headers: {
             Accept : "application/json",
             "Content-Type" : "application/json",
