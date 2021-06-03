@@ -72,6 +72,7 @@ function addTracksToPlaylist(){
     const tracks = document.querySelectorAll("#playlist li");
     var res = []; 
     tracks.forEach(e => res.push(e.dataset.uri));
+    return res;
 }
 
 function getUser(){
@@ -86,16 +87,16 @@ function getUser(){
     return fetch('https://api.spotify.com/v1/me', options).then(e => e.json());
 }
 
-function createPlaylist(){
-    const name = JSON.stringify(playlistName.innerHTML != null ? playlistName.innerHTML : "😎 Bangers");
+async function createPlaylist(){
+    const name = !!playlistName.innerHTML ? playlistName.innerHTML : "😎 Bangers";
     const options = {
         method : "POST",
 
-        body : {
+        body : JSON.stringify({
             "name" : name,
             "description" : "Generated with an awesome website",
             "public" : true,
-        },
+        }),
 
         headers : {
             Accept : "application/json",
@@ -103,21 +104,28 @@ function createPlaylist(){
             Authorization : `Bearer ${access_token}`,
         },
     }
-    const userId = getUser().then(e => e.id);
-    return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`).then(e => e.json());
+    const userId = await getUser().then(e => e.id);
+    return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, options).then(e => {
+        console.log(e);
+        return e.json();
+    });
 }
 
-function savePlaylist(){
-    const idPlaylist = createPlaylist().then(e => e.id);
-    const tracks = JSON.stringify(addTracksToPlaylist());
+async function savePlaylist(){
+    const idPlaylist = await createPlaylist().then(e => e.id);
+    const tracks = addTracksToPlaylist();
+    console.log(tracks);
     const options = {
         method : "POST",
-        uris: tracks,
+        body : JSON.stringify({
+            uris : tracks,
+        }),
         headers: {
             Accept : "application/json",
             "Content-Type" : "application/json",
             Authorization : `Bearer ${access_token}`,
         },
     };
-    fetch(`https://api.spotify.com/v1/playlists/${idPlaylist}/tracks`);
+    const e = await fetch(`https://api.spotify.com/v1/playlists/${idPlaylist}/tracks`, options).then(e => e.json()).then(e => e);
+    console.log(e);
 }

@@ -33,7 +33,7 @@ async function generateCodeChallenge(codeVerifier){
 };
 
 async function generateUri(codeChallenge){
-    var authorizationUri = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&redirect_uri=${redirectUri}&code_challenge_method=S256&code_challenge=${codeChallenge}`;
+    var authorizationUri = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=${redirectUri}&code_challenge_method=S256&code_challenge=${codeChallenge}`;
     return authorizationUri;
 };
 
