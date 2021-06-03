@@ -13,36 +13,8 @@ var searchQuery = null;
 
 console.log(searchBtn);
 console.log(access_token)
+saveButton.addEventListener('click',() => getUser().then(e => console.log(e)));
 
-addButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const li = document.createElement('li');
-        const liText = document.createTextNode(`${button.dataset.artist} - ${button.dataset.song}`);
-        li.append(liText);
-        const deleteButton = document.createElement('button');
-        deleteButton.addEventListener('click', () => {
-            li.remove();
-        })
-        const btnText = document.createTextNode('Supprimer');
-        deleteButton.append(btnText);
-        li.append(deleteButton);
-        ulPlaylist.append(li);
-    })
-});
-
-function searchSong () {
-    const options = {
-        method: "GET",
-        headers : {   
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${access_token}`,
-        }
-    }
-    searchQuery = searchBar.value;
-    
-    return fetch(`https://api.spotify.com/v1/search?q=${searchQuery}&type=track`, options);
-}
 
 searchBtn.addEventListener('click', async() => { 
     const resultLi = document.querySelectorAll("#results li");
@@ -59,13 +31,11 @@ searchBtn.addEventListener('click', async() => {
         const titre = e.name;
         var artist = "";
         const li = document.createElement('li');
-        e.artists.forEach(e => artist+= e.name + " ");
-        
+        e.artists.forEach(e => artist+= e.name + " ");  
         var liCont = `${titre} - ${artist}`;
         li.setAttribute("data-uri", uri);
         li.append(liCont);
         const liToAdd = li.innerHTML;
-        console.log("to add = " + liToAdd);
         button.addEventListener('click', () => addToPlayList(liToAdd, uri));
         li.append(button);
         resultSearch.append(li);
@@ -73,10 +43,25 @@ searchBtn.addEventListener('click', async() => {
     result.style.display = "block";
 });
 
+function searchSong () {
+    const options = {
+        method: "GET",
+        headers : {   
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${access_token}`,
+        }
+    }
+    searchQuery = searchBar.value;
+    
+    return fetch(`https://api.spotify.com/v1/search?q=${searchQuery}&type=track`, options);
+}
+
 function addToPlayList(track, uri){
     const li = document.createElement("li");
     const deleteButton = document.createElement("button");
     deleteButton.innerText = "*** Supprimer";
+    deleteButton.addEventListener('click', () => playlistResult.removeChild(li));
     li.setAttribute("data-uri", uri);
     li.innerHTML = track;
     li.append(deleteButton);
@@ -95,8 +80,6 @@ function getUser(){
     return fetch('https://api.spotify.com/v1/me', options).then(e => e.json());
 }
 
-getUser().then(e => console.log(e));
-
 function createPlaylist(name){
     const options = {
         method : "POST",
@@ -114,9 +97,13 @@ function createPlaylist(name){
         },
     }
     const userId = getUser().id;
-    return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`).then(e => e.json());
+    addToPlayList();
+   // return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`).then(e => e.json());
 }
 
-function addTracksToPlaylist(tracks){
-    
+function addTracksToPlaylist(){
+    const tracks = document.querySelectorAll("#playlist li");
+    var res = []; 
+    tracks.forEach(e => res.push(e.dataset.uri));
+    console.log(res);
 }
