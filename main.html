@@ -10,28 +10,26 @@
 <body class="px-6 bg-gradient-to-r from-green-400 to-gray-300">
 	<br>
     <section id="search" class="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4">
-		<input class="bg-gray-200 focus:bg-white" type="text" id="search" placeholder="Votre musique !">
+		<input id="search-input" class="bg-gray-200 focus:bg-white" type="text" placeholder="Votre musique !"></input>
 		<button class="border-double border-4 border-green-200 hover:bg-red-400" id="search-button">Rechercher</button>
 	</section>
 
 	<br>
 	<br>
-	<section id="results" class="max-w- mx-auto item-center bg-gradient-to-r from-green-300 to-gray-100">
+	<section id="results" class="hidden max-w- mx-auto item-center bg-gradient-to-r from-green-300 to-gray-100">
 		<h2>Résultats</h2>
 		<ul>
-			<li>Time is running out - Muse <button>Ajouter</button></li>
+			
 		</ul>
 	</section>
 
 	<br>
 	<br>
-	<section id="playlist">
-		<h2>Playlist</h2>
+	<section id="playlist" class="space-y-4">
+		<h2>Playlist</h2>		
+		<input placeholder="Nom de votre playlist !" type="text" class="block">
 		<ul>
-			<li>ACDC <button>Supprimer</button></li>
 		</ul>
-	</section>
-	<section>
 		<button>Sauvergarder la playlist sur Spotify</button>
 	</section>
 </body>
